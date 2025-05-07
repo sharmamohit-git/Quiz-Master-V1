@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+Add New Chapter
+{% endblock %}
+
+
+{% block bodycontent %}
+<h1 style="text-align:center;margin-top:1%"> Add New Chapter</h1>
+<br>
+<div class="container-sm" style="width:25%; border:2px solid grey; border-radius:10px; padding:1% 3%">
+<form action="/new_chapter" method="post">
+    <div class="mb-3">
+        <label for="selectsubject" class="form-label">Select Subject: </label>
+        <select class="form-select" name="selectsubject" id="selectsubject">
+            {% for subject in subjects %}
+            
+            <option value="{{subject.id}}">{{subject.name}}</option>
+            
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="chaptername" class="form-check-label">Enter Chapter Name: </label>
+        <input type="text" class="form-control" id="chaptername" name="chaptername" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="{{url_for('admin_home')}}" type="button" class="btn btn-secondary">Cancel</a>
+</form>
+</div>
+
+{% endblock %}

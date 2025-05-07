@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+ Admin Search
+{% endblock %}
+
+
+{% block bodycontent %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{{url_for('admin_home')}}">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/admin_summary">Summary</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/logout">Logout</a>
+      </li>
+    </ul>
+  </div>
+  
+</nav>
+<div style="text-align:center;margin-top:5%">
+  <h3>Search results for <b>"{{search}}"</b></h3>
+</div><br><br>
+
+{% if subjects %}
+<div style="width:50%;margin:auto">
+  {% for subject in subjects %}
+  <div class="card">
+    <h5 class="card-header"><b><u>Subject</u>- {{subject.name}}</b></h5>
+    <div class="card-body">
+      {% if subject.chapters %}
+      <table class="table table-sm" style="text-align:center">
+        <thead>
+          <tr>
+            <th>Chapter Name</th>
+            <th>No of Quizes</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for chapter in subject.chapters %}
+          <tr>
+            <td><a href="/quiz_list/{{chapter.name}}/{{chapter.id}}" class="card-link">{{chapter.name}}</a></td>
+            <th>{{chapter.quizes|length}}</th>
+            <td><a href="/edit_chapter/{{chapter.name}}/{{chapter.id}}">Edit</a> | <a href="/delete_chapter/{{chapter.id}}" style="color:red">Delete</a></td>
+          </tr>
+        </tbody>
+
+        {% endfor %}
+      </table>
+      {% else %}
+      No chapters available.
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<br><br>
+
+{% if chapters %}
+<div style="width:50%;margin:auto">
+  {% for chapter in chapters %}
+  <div class="card">
+    <h5 class="card-header"><b><u>Chapter</u>- {{chapter.name}}</b></h5>
+    <div class="card-body">
+      {% if chapter.quizes %}
+      <table class="table table-sm" style="text-align:center">
+        <thead>
+          <tr>
+            <th>Quiz Name</th>
+            <th>No of Questions</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for quiz in chapter.quizes %}
+          <tr>
+            <td><a href="/quiz/{{quiz.name}}/{{quiz.id}}" class="card-link">{{quiz.name}}</a></td>
+            <th>{{chapter.questions|length}}</th>
+            <td><a href="/edit_quiz/{{quiz.name}}/{{quiz.id}}">Edit</a> | <a href="/delete_quiz/{{quiz.belongstochapter.name}}/{{quiz.belongstochapter.id}}/{{quiz.name}}/{{quiz.id}}" style="color:red">Delete</a></td>
+          </tr>
+        </tbody>
+
+        {% endfor %}
+      </table>
+      {% else %}
+      No quiz available.
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+<br><br>
+{% if quizes %}
+<div style="width:50%;margin:auto">
+  <div class="card">
+    <div class="card-body">
+      <table class="table table-sm" style="text-align:center">
+        <thead>
+          <tr>
+            <th>Quiz ID</th>
+            <th>Name</th>
+            <th>No of Questions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for quiz in quizes %}
+          <tr>
+            <td>{{quiz.id}}</td>
+            <th><a href="/quiz/{{quiz.name}}/{{quiz.id}}">{{quiz.name}}</a></th>
+            <td>{{quiz.questions | length}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        
+      </table>
+    </div>
+</div>
+{% endif %}
+
+<br><br>
+
+{% if users %}
+<div style="width:50%;margin:auto">
+  <div class="card">
+    <div class="card-body">
+      <table class="table table-sm" style="text-align:center">
+        <thead>
+          <tr>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Username</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{user.id}}</td>
+            <th>{{user.name}}</th>
+            <td>{{user.username}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        
+      </table>
+    </div>
+</div>
+{% endif %}
+
+<br><br>
+
+
+<div style="text-align:center"><a href="{{url_for('admin_home')}}" class="btn btn-secondary">Back</a></div>
+
+{% block style %}
+<style>
+  a {
+    text-decoration: none;
+  }
+</style>
+{% endblock %}
+
+{% endblock %}

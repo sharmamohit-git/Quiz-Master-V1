@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+
+{% endblock %}
+
+
+{% block bodycontent %}
+
+<h1 style="text-align:center;margin-top:1%"> Add New Subject</h1>
+<br>
+<div class="container-sm" style="width:25%; border:2px solid grey; border-radius:10px; padding:1% 3%">
+  <form class="add-card-form" action="{{url_for('new_subject')}}" method="POST">
+      <div class="mb-3">
+          <label for="subject_name" class="form-label">Enter Subject Name</label>
+          <input type="text" class="form-control" id="subject_name" name="subject_name" required>
+      </div>
+      <button class="btn btn-primary" type="submit">Save</button>
+      <a class="btn btn-secondary" href="{{url_for('admin_home')}}">Cancel</a>
+  </form>
+</div>
+
+{% endblock %}

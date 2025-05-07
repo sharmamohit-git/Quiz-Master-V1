@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+Quiz- {{quiz.name}}
+{% endblock %}
+
+
+{% block bodycontent %}
+<div style="margin-bottom:5%">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{url_for('admin_home')}}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/admin_summary">Summary</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+
+  </nav>
+</div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+
+{% for category, message in messages %}
+<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert"><b>{{ message }}</b>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+{% endfor %}
+
+{% endif %}
+{% endwith %}
+
+{% if questions %}
+
+<div class="container">
+  <center>
+    <h3 style="text-decoration:underline">{{quiz.name}}: {{quiz.belongstochapter.name}}
+      ({{quiz.belongstochapter.belongstosubject.name}})</h3>
+  </center>
+  {% for question in questions %}
+
+  <div class="row">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <div style="display: flex;">
+        <span><b>Q{{loop.index}}. </b> </span><span>{{question.question}}</span>
+      </div>
+
+      <span style="margin-left:5%"><a class="btn btn-outline-primary btn-sm"
+          href="/edit_question/{{question.id}}">Edit</a> <a class="btn btn-outline-danger btn-sm"
+          href="/delete_question/{{quiz_name}}/{{quiz_id}}/{{question.id}}">Delete</a></span></h5>
+    </div>
+    <br>
+    <div><span><b></span>A: </b> </span><span>{{question.option1}}</span></div>
+    <div><span><b></span>B: </b> </span><span>{{question.option2}}</span></div>
+    <div><span><b></span>C: </b> </span><span>{{question.option3}}</span></div>
+    <div><span><b></span>D: </b> </span><span>{{question.option4}}</span></div>
+    <div style="margin-top:10px"><span><b></span>ANSWER: </b> </span><span>{{question.answer}}</span></div>
+  </div>
+
+  <hr>
+  {% endfor %}
+
+
+  {% else %}
+  <h4>No questions available in this quiz.</h4>
+  {% endif %}
+
+
+
+  <div style="text-align:center">
+    <a href="/admin_home" type="button" class="btn btn-primary">Home</a>
+    <a href="/quiz_list/{{quiz.belongstochapter.name}}/{{quiz.belongstochapter.id}}" type="button"
+      class="btn btn-secondary">Back</a>
+  </div>
+</div>
+
+{% endblock %}

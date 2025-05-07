@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+Quiz- {{quizname}}
+{% endblock %}
+
+
+{% block bodycontent %}
+
+{% if questions %}
+
+<form action="/score/user_{{user_id}}/quiz_{{quiz_id}}" method="post">
+{% for question in questions%}
+<div  class="container" style="width:50%">
+    
+    <div><span><b>Q.{{loop.index}}</b> </span><span>{{question.question}}</span></div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="{{question.id}}" id="{{question.id}}option1" value="{{question.option1}}">
+        <label class="form-check-label" for="{{question.id}}option1">
+            {{question.option1}}
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="{{question.id}}" id="{{question.id}}option2" value="{{question.option2}}">
+        <label class="form-check-label" for="{{question.id}}option3">
+            {{question.option2}}
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="{{question.id}}" id="{{question.id}}option3" value="{{question.option3}}">
+        <label class="form-check-label" for="{{question.id}}option3">
+            {{question.option3}}
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="{{question.id}}" id="{{question.id}}option4" value="{{question.option4}}">
+        <label class="form-check-label" for="{{question.id}}option4">
+            {{question.option4}}
+        </label>
+    </div>
+<hr> 
+</div>
+{% endfor %}
+<div style="text-align:center">
+<button type="submit" class="btn btn-primary">Submit</button>
+<a href="/user_home/{{user_id}}" type="button" class="btn btn-secondary">Back</a>
+</div>
+</form>
+{% else %}
+<h4>Quiz not found.</h4>
+<div style="text-align:center">
+    <a href="/user_home/{{user_id}}" type="button" class="btn btn-secondary">Back</a>
+    </div>
+{% endif %}
+
+
+{% endblock %}

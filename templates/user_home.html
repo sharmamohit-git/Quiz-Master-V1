@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+Homepage- {{user.name}}
+{% endblock %}
+
+
+{% block bodycontent %}
+
+{% block style %}
+<style>
+
+  body {
+    padding-top: 56px;
+  }
+
+  a {
+    text-decoration: none;
+  }
+</style>
+
+{% endblock %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="/user_home/{{user.id}}">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="#Score">Scores</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/user_{{user.id}}/summary">Summary</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/logout">Logout</a>
+      </li>
+    </ul>
+    <form class="d-flex" action="/user_home/search/{{user.id}}" method="post">
+      <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-primary" type="submit">Search</button>
+    </form>
+  </div>
+  <h4 style="margin-right:1%">Welcome User- {{user.name}}</h4>
+
+</nav>
+<div style="margin-bottom:20px">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+
+  {% for category, message in messages %}
+  <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert"><b>{{ message }}</b>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+  {% endfor %}
+
+  {% endif %}
+  {% endwith %}
+</div>
+<div div class="container"
+  style="width:75%;margin:auto;background-color:white;padding-left:2%;padding-right:2%;padding-top:10px; text-align:center;border:1px solid grey; border-radius:10px">
+  <h3 style="text-align:center;text-decoration:underline">All Quizes</h3>
+  {% if quizes %}
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>SR. NO</th>
+        <th>QUIZ NAME</th>
+        <th>CHAPTER</th>
+        <th>SUBJECT</th>
+        <th>ACTION</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for quiz in quizes %}
+      <tr>
+        <td>{{loop.index}}</td>
+        <td>{{quiz.name}}</td>
+        <td>{{quiz.belongstochapter.name}}</td>
+        <td>{{quiz.belongstochapter.belongstosubject.name}}</td>
+        <td><a href="/user_{{user.id}}/start_quiz/quiz_{{quiz.id}}" class="btn btn-primary btn-sm">Start</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <h5 style="text-align:center">No quiz available.</h5>
+  {% endif %}
+</div>
+<br>
+
+<div class="container" id="Score"
+  style="width:75%;margin:auto;margin-top:20px;padding-left:2%;padding-right:2%;padding-top:10px; text-align:center;border:1px solid grey; border-radius:10px">
+  <h3 style="text-align:center;text-decoration:underline">Score</h3>
+  {% if scores %}
+  <table class="table table-striped">
+    <thead>
+      <th>SR NO</th>
+      <th>SCORE ID</th>
+      <th>QUIZ</th>
+      <th>DATE OF ATTEMPT</th>
+      <th>SCORE</th>
+      <th>ACTION</th>
+    </thead>
+    <tbody>
+      {% for score in scores %}
+      <tr>
+        <td>{{loop.index}}</td>
+        <td>{{score.id}}</td>
+        <td>{{score.belongstoquiz.name}}: {{score.belongstoquiz.belongstochapter.name}} ({{score.belongstoquiz.belongstochapter.belongstosubject.name}})</td>
+        <td>{{score.date_of_attempt}}</td>
+        <td>{{score.scored}}</td>
+        <td><a href="/user_{{user.id}}/start_quiz/quiz_{{score.quiz_id}}" class="btn btn-primary btn-sm">Re-Attempt</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+ {% else %}
+ <h5 style="text-align:center">You have not attempted any quiz.</h5>
+ {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+
+{% endblock %}
+
+
+{% block bodycontent %}
+<h1 style="text-align:center;margin-top:1%"> Add New Question</h1>
+<br>
+<div class="container-sm" style="width:25%; border:2px solid grey; border-radius:10px; padding:1% 3%">
+<form action="/new_question" method="post">
+    <div class="mb-3">
+        <label for="selectquiz" class="form-label">Select Quiz: </label>
+        <select class="form-select" name="selectquiz" id="selectquiz">
+            {% for quiz in quizes %}
+            <option value="{{quiz.id}}">{{quiz.name}}- {{quiz.belongstochapter.name}} ({{quiz.belongstochapter.belongstosubject.name}})</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="question" class="form-label">Question- </label>
+        <textarea class="form-control" rows="3" id="question" name="question"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="option1" class="form-check-label">Option 1: </label>
+        <input type="text" class="form-control" id="option1" name="option1" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="option2" class="form-check-label">Option 2: </label>
+        <input type="text" class="form-control" id="option2" name="option2" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="option3" class="form-check-label">Option 3: </label>
+        <input type="text" class="form-control" id="option3" name="option3" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="option4" class="form-check-label">Option 4: </label>
+        <input type="text" class="form-control" id="option4" name="option4" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="answer" class="form-check-label">ANSWER </label>
+        <input type="text" class="form-control" id="answer" name="answer" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="{{url_for('admin_home')}}" type="button" class="btn btn-secondary">Cancel</a>
+</form>
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+Quiz Details- {{chapter_name}}
+{% endblock %}
+
+
+{% block bodycontent %}
+{% block style %}
+<style>
+
+  a {
+    text-decoration: none;
+  }
+</style>
+{% endblock %}
+
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert"><b>{{ message }}</b>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+    {% endfor %}
+
+  {% endif %}
+{% endwith %}
+
+<h2 style="text-align:center;text-decoration:underline;margin-top:2%">Available Quizes- {{chapter_name}}</h2><br><br>
+{% if quizes %}
+<div style="width:50%;margin:auto;text-align:center">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>QUIZ NAME</th>
+                <th>NO. OF QUESTIONS</th>
+                <th>ACTION</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for quiz in quizes%}
+            <tr>
+                <td><a href="/quiz/{{quiz.name}}/{{quiz.id}}" class="card-link">{{quiz.name}}</a></td>
+                <td>{{quiz.questions | length}}</td>
+                <td><a href="/edit_quiz/{{quiz.name}}/{{quiz.id}}" class="btn btn-primary btn-sm">Edit</a> <a href="/delete_quiz/{{quiz.belongstochapter.name}}/{{quiz.belongstochapter.id}}/{{quiz.name}}/{{quiz.id}}" class="btn btn-danger btn-sm">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<h3>No quizes present</h3>
+{% endif %}
+<br>
+<div style="text-align: center;">
+    <a href="/admin_home" class="btn btn-secondary" role="button" aria-pressed="true">Back
+    </a>
+</div>
+
+
+{% endblock %}

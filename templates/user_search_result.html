@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+User Search Result 
+{% endblock %}
+
+
+{% block bodycontent %}
+
+<div style="text-align:center; margin-top:2%">
+    <h3>Search results for <b>"{{search}}"</b></h3>
+  </div><br><br>
+
+  
+  {% if quizes %}
+  <div class="container" style="width: 50%; margin: auto;">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>SR. NO</th>
+        <th>QUIZ NAME</th>
+        <th>CHAPTER</th>
+        <th>SUBJECT</th>
+        <th>ACTION</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for quiz in quizes %}
+      <tr>
+        <td>{{loop.index}}</td>
+        <td>{{quiz.name}}</td>
+        <td>{{quiz.belongstochapter.name}}</td>
+        <td>{{quiz.belongstochapter.belongstosubject.name}}</td>
+        <td><a href="/user_{{user_id}}/start_quiz/quiz_{{quiz.id}}" class="btn btn-primary btn-sm">Start</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+  {% endif %}
+
+<br><br>
+
+<div style="text-align:center"><a href="/user_home/{{user_id}}" class="btn btn-secondary">Back</a></div>
+{% endblock %}

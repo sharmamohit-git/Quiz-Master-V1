@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+Add New Quiz
+{% endblock %}
+
+
+{% block bodycontent %}
+<h1 style="text-align:center;margin-top:1%"> Add New Quiz</h1>
+<br>
+<div class="container-sm" style="width:25%; border:2px solid grey; border-radius:10px; padding:1% 3%">
+    <form action="/new_quiz" method="post">
+        <div class="mb-3">
+            <label for="selectchapter" class="form-label">Select Chapter: </label>
+            <select class="form-select" name="selectchapter" id="selectchapter">
+                {% for subject in subjects %}
+                {% for chapter in subject.chapters%}
+                <option value="{{chapter.id}}">{{chapter.name}}({{chapter.belongstosubject.name}})</option>
+                {% endfor %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="quizname" class="form-label">Enter Quiz Name: </label>
+            <input type="text" class="form-control" id="quizname" name="quizname" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="/admin_home" type="button" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+{% endblock %}

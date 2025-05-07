@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+
+{% endblock %}
+
+
+{% block bodycontent %}
+<h1 style="text-align:center;margin-top:1%"> Edit Question</h1>
+<br>
+<div class="container-sm" style="width:25%; border:2px solid grey; border-radius:10px; padding:1% 3%">
+<form action="/edit_question/{{question_id}}" method="post">
+    <div class="mb-3">
+        <label for="question" class="form-label">Question- </label>
+        <textarea class="form-control" rows="3" id="question" name="question">{{question_details.question}}</textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="option1" class="form-check-label">Option 1: </label>
+        <input type="text" class="form-control" id="option1" name="option1" value="{{question_details.option1}}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="option2" class="form-check-label">Option 2: </label>
+        <input type="text" class="form-control" id="option2" name="option2" value="{{question_details.option2}}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="option3" class="form-check-label">Option 3: </label>
+        <input type="text" class="form-control" id="option3" name="option3" value="{{question_details.option3}}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="option4" class="form-check-label">Option 4: </label>
+        <input type="text" class="form-control" id="option4" name="option4" value="{{question_details.option4}}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="answer" class="form-check-label">ANSWER </label>
+        <input type="text" class="form-control" id="answer" name="answer" value="{{question_details.answer}}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a href="/quiz/{{question_details.belongstoquiz.name}}/{{question_details.belongstoquiz.id}}" type="button" class="btn btn-secondary">Cancel</a>
+</form>
+</div>
+{% endblock %}
